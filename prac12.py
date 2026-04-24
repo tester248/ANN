@@ -42,8 +42,8 @@ print("\nTensorFlow Model Architecture:")
 model_tf.summary()
 
 # Train
-print("\nTraining TensorFlow CNN (5 epochs)...")
-history_tf = model_tf.fit(x_train, y_train, epochs=5, batch_size=128, verbose=1)
+print("\nTraining TensorFlow CNN (3 epochs)...")
+history_tf = model_tf.fit(x_train, y_train, epochs=3, batch_size=128, verbose=1)
 
 # Evaluate
 print("\nEvaluating TensorFlow CNN on test data...")
@@ -108,17 +108,21 @@ print(model_pytorch)
 
 # Prepare data
 print("\nPreparing data...")
-x_train_tensor = torch.from_numpy(x_train).float().to(device)
+# Convert from (batch, height, width, channels) to (batch, channels, height, width)
+x_train_pytorch = np.transpose(x_train, (0, 3, 1, 2))
+x_test_pytorch = np.transpose(x_test, (0, 3, 1, 2))
+
+x_train_tensor = torch.from_numpy(x_train_pytorch).float().to(device)
 y_train_tensor = torch.from_numpy(y_train).long().to(device)
-x_test_tensor = torch.from_numpy(x_test).float().to(device)
+x_test_tensor = torch.from_numpy(x_test_pytorch).float().to(device)
 y_test_tensor = torch.from_numpy(y_test).long().to(device)
 
 train_dataset = TensorDataset(x_train_tensor, y_train_tensor)
 train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True)
 
 # Training loop
-print("Training PyTorch CNN (5 epochs)...")
-num_epochs = 5
+print("Training PyTorch CNN (2 epochs)...")
+num_epochs = 2
 for epoch in range(num_epochs):
     total_loss = 0
     for batch_idx, (images, labels) in enumerate(train_loader):
