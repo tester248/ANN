@@ -1,65 +1,20 @@
-import numpy as np
-import matplotlib.pyplot as plt
+w1 = 1
+w2 = -1
+threshold = 1
 
-def linear(x):
-	return x
-def binary_step(x):
-	return np.where(x >= 0, 1, 0)
-def sigmoid(x):
-	return 1 / (1 + np.exp(-x))
-def tanh(x):
-	return np.tanh(x)
-def relu(x):
-	return np.maximum(0, x)
+def mp_neuron(A, B):
+    #Return 1 if (w1*A + w2*B) >= threshold, else 0.
+    net_input = (w1 * A) + (w2 * B)
+    return 1 if net_input >= threshold else 0
 
 def main():
-	x = np.linspace(-10, 10, 400)
+    inputs = [(0,0), (0,1), (1,0), (1,1)]
 
-	# Binary Step
-	plt.figure()
-	plt.plot(x, binary_step(x))
-	plt.title("Binary Step Activation Function")
-	plt.xlabel("Input")
-	plt.ylabel("Output")
-	plt.grid(True)
-	plt.show()
-
-	# Sigmoid
-	plt.figure()
-	plt.plot(x, sigmoid(x))
-	plt.title("Sigmoid Activation Function")
-	plt.xlabel("Input")
-	plt.ylabel("Output")
-	plt.grid(True)
-	plt.show()
-
-	# Tanh
-	plt.figure()
-	plt.plot(x, tanh(x))
-	plt.title("Tanh Activation Function")
-	plt.xlabel("Input")
-	plt.ylabel("Output")
-	plt.grid(True)
-	plt.show()
-
-	# ReLU
-	plt.figure()
-	plt.plot(x, relu(x))
-	plt.title("ReLU Activation Function")
-	plt.xlabel("Input")
-	plt.ylabel("Output")
-	plt.grid(True)
-	plt.show()
-
-	# Linear
-	plt.figure()
-	plt.plot(x, linear(x))
-	plt.title("Linear Activation Function")
-	plt.xlabel("Input")
-	plt.ylabel("Output")
-	plt.grid(True)
-	plt.show()
+    print("A B | Output")
+    print("--------------")
+    for A, B in inputs:
+        output = mp_neuron(A, B)
+        print(f"{A} {B} |   {output}")
 
 if __name__ == "__main__":
-	main()
-
+    main()
