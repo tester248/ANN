@@ -2,7 +2,7 @@ import numpy as np
 
 def ascii_binary(digit):
     """Return 8-bit ASCII binary representation (as float array) of the digit character."""
-    ascii_val = ord(str(digit))
+    ascii_val = ord(digit)
     binary = format(ascii_val, '08b')
     return np.array([int(bit) for bit in binary], dtype=np.float64)
 
@@ -26,16 +26,17 @@ def predict(x, weights, bias):
 
 def main():
     # Prepare dataset: ASCII binary of characters '0'..'9'
-    X = np.array([ascii_binary(i) for i in range(10)])
+    digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    X = np.array([ascii_binary(d) for d in digits])
     y = np.array([1 if i % 2 == 0 else 0 for i in range(10)], dtype=np.int32)
 
     weights, bias = train_perceptron(X, y, learning_rate=0.1, epochs=50)
 
     print("Testing Perceptron for Even/Odd Recognition:\n")
-    for i in range(10):
-        test_input = ascii_binary(i)
+    for d in digits:
+        test_input = ascii_binary(d)
         prediction = predict(test_input, weights, bias)
-        print(f"Digit {i} -> {'Even' if prediction == 1 else 'Odd'}")
+        print(f"Digit {d} -> {'Even' if prediction == 1 else 'Odd'}")
 
     # Report training accuracy and parameters
     preds = np.array([predict(x, weights, bias) for x in X])
